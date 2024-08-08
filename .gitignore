@@ -1,0 +1,5 @@
+
+.env
+node_modules
+/ecommerce-rest-apis-node-main/node_modules
+/rest-api/node_modules
