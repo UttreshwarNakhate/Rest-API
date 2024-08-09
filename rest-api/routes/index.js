@@ -1,8 +1,7 @@
 import express from "express";
 const router = express.Router();
+import { registerController } from "../controllers";
 
-router.post("/register", (req, res, next) => {
-  // Registrationlogic
-});
+router.post("/register", registerController.register);
 
 export default router;
