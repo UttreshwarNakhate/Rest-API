@@ -36,13 +36,14 @@ const registerController = {
     } catch(err) {
         return next(err);
     }
+
+    // Destructure the data from req.body
     const { name, email, password } = req.body;
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // prepare the model
-
     const user = new User({
         name,
         email,
