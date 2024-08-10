@@ -2,6 +2,7 @@ import Joi from "joi";
 import { User } from "../../models";
 import bcrypt from "bcrypt";
 import JwtService from "../../services/JwtService";
+import CustomErrorHandler from "../../services/CustomErrorHandler";
 
 const registerController = {
   async register(req, res, next) {
@@ -43,20 +44,21 @@ const registerController = {
     console.log("hashed password: ", hashedPassword);
 
     // Prepare the model
-    const user = {
+    const user = new User({
       name,
       email,
       password: hashedPassword,
-    };
+    })
 
     // Store the data iun database
     let access_token;
     try {
-      const result = await User.save({user});
+      const result = await user.save();
       console.log("result", result);
 
       // Token
       access_token = JwtService.sign({ _id: result._id, role: result.role });
+      console.log("access_token: ", access_token)
     } catch (error) {
       return next(error);
     }

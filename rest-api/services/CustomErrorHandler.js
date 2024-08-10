@@ -5,14 +5,17 @@ class CustomErrorHandler extends Error {
         this.message = msg;
     }
 
+    // User already exist validation message
     static alreadyExist(message) {
         return new CustomErrorHandler(409, message);
     }
 
+    // Wrong creaentials
     static wrongCredentials(message = 'Username or password is wrong!') {
         return new CustomErrorHandler(401, message);
     }
 
+    // Unothorised user
     static unAuthorized(message = 'unAuthorized') {
         return new CustomErrorHandler(401, message);
     }
