@@ -1,13 +1,20 @@
 import Joi from "joi";
-import { User } from "../../models";
+import { RefreshToken, User } from "../../models";
 import bcrypt from "bcrypt";
 import JwtService from "../../services/JwtService";
 import CustomErrorHandler from "../../services/CustomErrorHandler";
+import { REFRESH_SECRET } from "../../config";
 
 const registerController = {
   async register(req, res, next) {
     //CheckList for register steps
     //     [1] Validate the request
+    //     [2] authorise the  request
+    //     [3] check if user is in the database already
+    //     [4] prepare model
+    //     [5] store in database
+    //     [6] generate JWT token
+    //     [7] send response
 
     const registerSchema = Joi.object({
       name: Joi.string().min(3).max(30).required(),
@@ -48,30 +55,30 @@ const registerController = {
       name,
       email,
       password: hashedPassword,
-    })
+    });
 
     // Store the data iun database
     let access_token;
+    let refresh_token;
     try {
       const result = await user.save();
       console.log("result", result);
 
       // Token
       access_token = JwtService.sign({ _id: result._id, role: result.role });
-      console.log("access_token: ", access_token)
+      refresh_token = JwtService.sign(
+        { _id: result._id, role: result.role },
+        "1y",
+        REFRESH_SECRET
+      );
+      // database whitelist
+      await RefreshToken.create({ token: refresh_token });
     } catch (error) {
       return next(error);
     }
 
-    //     [2] authorise the  request
-    //     [3] check if user is in the database already
-    //     [4] prepare model
-    //     [5] store in database
-    //     [6] generate JWT token
-    //     [7] send response
-
     // Logic for registration process
-    res.json({ access_token: access_token });
+    res.json({ access_token: access_token, refresh_token: refresh_token });
   },
 };
 

@@ -1,11 +1,21 @@
 import express from "express";
 const router = express.Router();
-import { registerController, loginController, userController } from "../controllers";
+import {
+  registerController,
+  refreshController,
+  loginController,
+  userController,
+  productController,
+} from "../controllers";
 import auth from "../middlewares/auth";
 
+router.post("/register", registerController.register);
+router.post("/login", loginController.login);
+router.get("/me", auth, userController.me);
+router.post("/refresh", refreshController.refresh);
+router.post("/logout", auth, loginController.logout);
 
-router.post('/register', registerController.register);
-router.post('/login', loginController.login);
-router.get('/me', auth, userController.me);
+// products
+router.post("/products", productController.store);
 
 export default router;
