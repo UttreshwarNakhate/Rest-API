@@ -1,23 +1,41 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import About from "./pages/About";
 import Home from "./pages/Home";
-import Products from "./pages/Products";
 import Navigation from "./components/Navigation";
 import Cart from "./pages/Cart";
 import SingleProduct from "./pages/SingleProduct";
+import ProductsPage from "./pages/ProductsPage";
+import { CartContext } from "./CartContext";
+import { useEffect, useState } from "react";
 
 const App = () => {
+
+  const [cart, setCart] = useState({});
+
+  // fetch from localstorage
+  useEffect(()=>{
+    const cart = window.localStorage.getItem('cart')
+  }, [])
+
+  useEffect(()=>{
+    window.localStorage.setItem('cart', JSON.stringify(cart))
+  }, [cart])
+
+
+
   return (
     <>
       <Router>
-        <Navigation />
-        <Routes>
-          <Route path="/" Component={Home} exact></Route>
-          <Route path="/about" Component={About}></Route>
-          <Route path="/products" exact Component={Products}></Route>
-          <Route path="/products/:_id" Component={SingleProduct}></Route>
-          <Route path="/cart" Component={Cart}></Route>
-        </Routes>
+        <CartContext.Provider value={{cart, setCart}}>
+          <Navigation />
+          <Routes>
+            <Route path="/" Component={Home} exact></Route>
+            <Route path="/about" Component={About}></Route>
+            <Route path="/productsPage" exact Component={ProductsPage}></Route>
+            <Route path="/products/:_id" Component={SingleProduct}></Route>
+            <Route path="/cart" Component={Cart}></Route>
+          </Routes>
+        </CartContext.Provider>
       </Router>
     </>
   );

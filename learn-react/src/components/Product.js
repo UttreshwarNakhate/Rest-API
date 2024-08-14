@@ -1,8 +1,47 @@
+// Child component use the the data of <Products/> parent component
 import { Link } from "react-router-dom";
+import { CartContext } from "../CartContext";
+import { useContext } from "react";
 
 const Product = (props) => {
-  console.log("prope", props.product);
+  const { cart, setCart } = useContext(CartContext);
   const { product } = props;
+
+  const addToCart = (event, product) => {
+    event.preventDefault();
+    console.log("Event: ", event, product);
+
+    // check if product available or not in the cart if not assign empty object to cart variable
+    let _cart = { ...cart };
+    if (!_cart.items) {
+      _cart.items = {};
+    }
+
+    // Check if product is alreay available if yes then increase qunatity by 1
+    if (_cart.items[product._id]) {
+      _cart.items[product._id] += 1;
+    } else {
+      // product is not in the cart then add 1
+      _cart.items[product._id] = 1;
+    }
+    // Update totale items
+    if(!_cart.totalItems){
+      _cart.totalItems = 0
+    }
+    _cart.totalItems += 1;
+    // set in the state
+    setCart(_cart);
+
+    //   const cart = {
+    //     items:{
+
+    //       //product Id and how many times it present in the cart
+
+    //     },
+    //     totalItems:5
+    //   }
+  };
+
   return (
     <Link to={`/products/${product._id}`}>
       <div>
@@ -16,7 +55,12 @@ const Product = (props) => {
           </div>
           <div className="flex justify-between item-center mt-4">
             <span>{product.price}</span>
-            <button className="bg-yellow-500 py-1 px-4 rounded-full font-bold">
+            <button
+              onClick={(e) => {
+                addToCart(e, product);
+              }}
+              className="bg-yellow-500 py-1 px-4 rounded-full font-bold"
+            >
               add
             </button>
           </div>
