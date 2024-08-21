@@ -2,8 +2,10 @@
 import { Link } from "react-router-dom";
 import { CartContext } from "../CartContext";
 import { useContext } from "react";
+import { useState } from "react";
 
 const Product = (props) => {
+  const [isAdding, setIsAdding] = useState(false);
   const { cart, setCart } = useContext(CartContext);
   const { product } = props;
 
@@ -25,12 +27,16 @@ const Product = (props) => {
       _cart.items[product._id] = 1;
     }
     // Update totale items
-    if(!_cart.totalItems){
-      _cart.totalItems = 0
+    if (!_cart.totalItems) {
+      _cart.totalItems = 0;
     }
     _cart.totalItems += 1;
     // set in the state
     setCart(_cart);
+    setIsAdding(true);
+    setTimeout(() => {
+      setIsAdding(false);
+    }, 1000);
 
     //   const cart = {
     //     items:{
@@ -59,9 +65,12 @@ const Product = (props) => {
               onClick={(e) => {
                 addToCart(e, product);
               }}
-              className="bg-yellow-500 py-1 px-4 rounded-full font-bold"
+              disabled={isAdding}
+              className={`${
+                isAdding ? "bg-green-500" : "bg-yellow-500"
+              } py-1 px-4 rounded-full font-bold `}
             >
-              add
+              ADD{isAdding ? "ED" : ""}
             </button>
           </div>
         </div>
