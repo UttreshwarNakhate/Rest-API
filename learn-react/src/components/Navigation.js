@@ -31,6 +31,9 @@ const Navigation = () => {
             <Link to="/about">About</Link>
           </li>
           <li className="ml-6">
+            <Link to="/profile">Profile</Link>
+          </li>
+          <li className="ml-6">
             <Link to="/cart">
               <div style={cartStyle}>
                 <span className="mr-2">{cart.totalItems}</span>
