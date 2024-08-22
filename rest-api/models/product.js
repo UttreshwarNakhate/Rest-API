@@ -12,7 +12,6 @@ const productSchema = new schema(
       type: String,
       required: true,
       get: (image) => {
-        // http://localhost:5000/uploads/uploads/1723491948560-516571190.png
         return `${APP_URL}/${image}`;
       },
     },
@@ -21,4 +20,3 @@ const productSchema = new schema(
 );
 
 export default mongoose.model("Product", productSchema, "products");
- 

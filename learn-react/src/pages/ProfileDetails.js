@@ -6,7 +6,7 @@ function ProfileDetails() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/images")
+    fetch("rest-api-rose.vercel.app/api/images")
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);
@@ -33,7 +33,7 @@ function ProfileDetails() {
           >
             <div className="flex-none w-full relative h-48">
               <img
-                src={`http://localhost:5000/${user.image?.path}`}
+                src={`rest-api-rose.vercel.app/${user.image?.path}`}
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover"
                 loading="lazy"
