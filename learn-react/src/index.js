@@ -1,17 +1,8 @@
-// const { render } = require("@testing-library/react");
+import ReactDom from "react-dom";
+import swDev from "./serviceWorkers";
+import App from "./App";
+import "./Index.css";
 
-// import ReactDOM from 'react-dom/client'
+ReactDom.render(<App />, document.getElementById("root"));
 
-// const root = ReactDOM.createRoot(document.getElementById("root"))
-
-// root.render(
-//     <h1>Hello world</h1>,
-// )
-
-import ReactDom from 'react-dom'
-import App from './App'
-import './Index.css'  
-ReactDom.render(
-    <App />,
-    document.getElementById("root")
-)
+swDev();

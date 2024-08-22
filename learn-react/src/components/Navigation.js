@@ -34,6 +34,9 @@ const Navigation = () => {
             <Link to="/profile">Profile</Link>
           </li>
           <li className="ml-6">
+            <Link to="/profileDetails">Users</Link>
+          </li>
+          <li className="ml-6">
             <Link to="/cart">
               <div style={cartStyle}>
                 <span className="mr-2">{cart.totalItems}</span>

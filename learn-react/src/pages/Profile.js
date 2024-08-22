@@ -1,12 +1,12 @@
-// profileFill.js
 import React, { useState } from "react";
-// import { useUser } from "../context/UserContext";
 import Camera from "../components/Webcam";
 
 function ProfileFill() {
-//   const { addUserDetails } = useUser();
   const [showPopup, setShowPopup] = useState(false);
-  const [img, setImg] = useState();
+  const [showOptions, setShowOptions] = useState(false); // To toggle options
+  const [showCamera, setShowCamera] = useState(false); // To toggle camera component
+  const [img, setImg] = useState(null); // Store captured or uploaded image
+
   const [form, setForm] = useState({
     name: "",
     mobile: "",
@@ -14,7 +14,6 @@ function ProfileFill() {
     age: "",
     qualification: "",
     address: "",
-    image: "",
   });
 
   const handleChange = (e) => {
@@ -24,21 +23,23 @@ function ProfileFill() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // addUserDetails(form);
 
-    // Create a FormData object and append form data
     const formData = new FormData();
-    // formData.append("image", img);
+
     for (const key in form) {
       formData.append(key, form[key]);
     }
+
+    // Append the captured image if available
     if (img) {
-      formData.append("image", img);
+      const uniqueFilename = `image-${Date.now()}.png`;
+      formData.append("image", img, uniqueFilename);
     }
 
-    console.log("formData", formData)
+    console.log("fORM DATA: ", formData);
 
-    fetch("http://localhost:8000/single", {
+    fetch("http://localhost:5000/api/single", {
+      // Note the `/api` prefix
       method: "POST",
       body: formData,
     })
@@ -66,18 +67,106 @@ function ProfileFill() {
     setShowPopup(false);
   };
 
+  const handleOptionSelect = (option) => {
+    if (option === "take-photo") {
+      // Trigger the Camera component
+      setShowCamera(true);
+      setShowOptions(false);
+    } else if (option === "upload-photo") {
+      // Trigger file input
+      document.getElementById("fileInput").click();
+      setShowOptions(false);
+    } else if (option === "remove-photo") {
+      // Remove the image
+      setImg(null);
+      setShowOptions(false);
+    }
+  };
   return (
     <>
       <div className="flex justify-center mx-auto items-center min-h-screen">
         <form onSubmit={handleSubmit}>
           <div className="space-y-6">
-            <div className="border-2 border-gray-900/10 p-4">
+            <div className="border-2 border-gray-900/10 p-2">
               <h2 className="text-base font-semibold leading-7 text-gray-900">
                 Personal Information
               </h2>
-              <div className="flex justify-center items-center rounded-full">
-                <Camera />
+              <div className="flex justify-center items-center rounded-full relative">
+                {img ? (
+                  <img
+                    src={URL.createObjectURL(img)}
+                    alt="Profile"
+                    className="rounded-full w-40 h-40 object-cover"
+                  />
+                ) : (
+                  <div className="w-40 h-40 rounded-full bg-gray-300 flex items-center justify-center">
+                    <span className="text-gray-500">No Image</span>
+                  </div>
+                )}
+                <button
+                  type="button"
+                  className="absolute bottom-6 right-15 left-18 h-8 w-8 bg-gray-700 rounded-full flex items-center justify-center"
+                  onClick={() => setShowOptions(!showOptions)}
+                >
+                  <i className="fas fa-camera text-white">+</i>
+                </button>
               </div>
+
+              {showOptions && (
+                <div className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-48 bg-white shadow-lg rounded-lg p-4 z-10">
+                  <button
+                    type="button"
+                    className="block w-full text-left p-2 text-sm hover:bg-gray-100"
+                    onClick={() => handleOptionSelect("take-photo")}
+                  >
+                    Take Photo
+                  </button>
+                  <button
+                    type="button"
+                    className="block w-full text-left p-2 text-sm hover:bg-gray-100"
+                    onClick={() => handleOptionSelect("upload-photo")}
+                  >
+                    Upload Photo
+                  </button>
+                  <button
+                    type="button"
+                    className="block w-full text-left p-2 text-sm text-red-600 hover:bg-gray-100"
+                    onClick={() => handleOptionSelect("remove-photo")}
+                  >
+                    Remove Photo
+                  </button>
+                </div>
+              )}
+
+              <input
+                id="fileInput"
+                type="file"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={(e) => setImg(e.target.files[0])}
+              />
+
+              {showCamera && (
+                <div className="absolute top-0 left-0 right-0 bottom-0 z-20 flex items-center justify-center bg-black bg-opacity-50">
+                  <div className="bg-white p-4 rounded-lg shadow-lg">
+                    <div className="flex justify-end">
+                      <button
+                        type="button"
+                        className="m-2 px-2 py-1 bg-red-600 text-white rounded-full"
+                        onClick={() => setShowCamera(false)}
+                      >
+                        X
+                      </button>
+                    </div>
+                    <Camera
+                      setCapturedImage={(blob) => {
+                        setImg(blob);
+                        setShowCamera(false);
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-3">
                   <label
@@ -93,7 +182,7 @@ function ProfileFill() {
                       value={form.name}
                       onChange={handleChange}
                       placeholder="john doe"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="w-80 py-1 px-3 border rounded-md outline-none"
                     />
                   </div>
                 </div>
@@ -112,7 +201,7 @@ function ProfileFill() {
                       value={form.mobile}
                       onChange={handleChange}
                       placeholder="ex:9130072238"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="w-80 py-1 px-3 border rounded-md outline-none"
                     />
                   </div>
                 </div>
@@ -131,7 +220,7 @@ function ProfileFill() {
                       value={form.age}
                       onChange={handleChange}
                       placeholder="ex: 22"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="w-80 py-1 px-3 border rounded-md outline-none"
                     />
                   </div>
                 </div>
@@ -150,7 +239,7 @@ function ProfileFill() {
                       value={form.qualification}
                       onChange={handleChange}
                       placeholder="BCS"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="w-80 py-1 px-3 border rounded-md outline-none"
                     />
                   </div>
                 </div>
@@ -170,37 +259,11 @@ function ProfileFill() {
                       placeholder="anc12@gmail.com"
                       value={form.email}
                       onChange={handleChange}
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="w-80 py-1 px-3 border rounded-md outline-none"
                     />
                   </div>
                 </div>
                 <div className="sm:col-span-4">
-                  <label
-                    htmlFor="image"
-                    className="block text-sm font-medium leading-6 text-gray-900 text-left"
-                  >
-                    Upload Image
-                  </label>
-                  <div>
-                    <input
-                      id="image"
-                      name="image"
-                      type="file"
-                      placeholder="anc12@gmail.com"
-                      value={form.image}
-                      onChange={(e) => {
-                        setImg(e.target.files[0]);
-                        setForm((prevForm) => ({
-                          ...prevForm,
-                          image: e.target.value,
-                        }));
-                      }}
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
-                </div>
-
-                <div className="col-span-full">
                   <label
                     htmlFor="street-address"
                     className="block text-sm font-medium leading-6 text-gray-900 text-left"
@@ -209,67 +272,49 @@ function ProfileFill() {
                   </label>
                   <div>
                     <input
-                      type="text"
+                      type="textarea"
                       name="address"
                       value={form.address}
                       onChange={handleChange}
-                      placeholder="123, Elm Street, Apt 4B, USA"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      placeholder="P24, Raj Niwas, Anand nagar, Anandgaon"
+                      className="w-80 py-1 px-3 border rounded-md outline-none"
                     />
                   </div>
                 </div>
               </div>
-              <div className="flex mt-4 items-center justify-end gap-x-6">
+              <div className="flex justify-end">
                 <button
-                  className=" rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   type="submit"
+                  className="rounded-md bg-orange-600 px-3 py-2 mt-5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Submit
+                  Save
                 </button>
               </div>
             </div>
           </div>
         </form>
-
-        {showPopup && (
-          <div
-            className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-            aria-labelledby="modal-title"
-            role="dialog"
-            aria-modal="true"
-          >
-            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                  <div className="mt-3 text-center sm:ml-4 sm:mt-0">
-                    <h3
-                      className="text-base font-semibold leading-6 text-gray-900"
-                      id="modal-title"
-                    >
-                      Save Info
-                    </h3>
-                    <div>
-                      <p className="text-sm text-gray-500">
-                        Personal Information submitted
-                      </p>
-                    </div>
-                  </div>
-                  <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                    <button
-                      type="button"
-                      className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                      onClick={handleClosePopup}
-                    >
-                      Ok
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
-      ;
+
+      {/* Popup code */}
+      {showPopup && (
+        <div
+          className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center z-50"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        >
+          <div className="bg-white p-8 rounded-lg">
+            <h2 className="text-xl font-semibold mb-4">
+              Form Submitted Successfully
+            </h2>
+            <p>Your details have been saved.</p>
+            <button
+              className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded"
+              onClick={handleClosePopup}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

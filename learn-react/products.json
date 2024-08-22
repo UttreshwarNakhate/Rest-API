@@ -5,7 +5,7 @@
     "name": "Four cheese",
     "price": 799,
     "size": "Medium",
-    "image": "/images/cheese.png",
+    "image": "/uploads/cheese.png",
     "createdAt": {
       "$date": "2021-04-30T15:53:23.393Z"
     },
@@ -19,7 +19,7 @@
     "name": "Chicken mushroom",
     "price": 699,
     "size": "Small",
-    "image": "/images/pizza1.png",
+    "image": "/uploads/pizza1.png",
     "createdAt": {
       "$date": "2021-04-30T15:53:48.741Z"
     },
@@ -33,7 +33,7 @@
     "name": "Margarita",
     "price": 699,
     "size": "Medium",
-    "image": "/images/pizza2.png",
+    "image": "/uploads/pizza2.png",
     "createdAt": {
       "$date": "2021-04-30T15:55:36.364Z"
     },
@@ -47,7 +47,7 @@
     "name": "Carbonara",
     "price": 999,
     "size": "Large",
-    "image": "/images/pizza2.png",
+    "image": "/uploads/pizza2.png",
     "createdAt": {
       "$date": "2021-04-30T15:55:54.276Z"
     },
@@ -61,7 +61,7 @@
     "name": "Mix BBQ",
     "price": 1299,
     "size": "Large",
-    "image": "/images/pizza3.png",
+    "image": "/uploads/pizza3.png",
     "createdAt": {
       "$date": "2021-04-30T15:56:09.573Z"
     },
@@ -75,7 +75,7 @@
     "name": "Mushroom",
     "price": 499,
     "size": "Small",
-    "image": "/images/pizza4.png",
+    "image": "/uploads/pizza4.png",
     "createdAt": {
       "$date": "2021-04-30T15:56:35.142Z"
     },
@@ -89,7 +89,7 @@
     "name": "Double peperoni",
     "price": 1399,
     "size": "Large",
-    "image": "/images/peproni2.jpg",
+    "image": "/uploads/peproni2.jpg",
     "createdAt": {
       "$date": "2021-04-30T15:57:04.665Z"
     },
@@ -103,7 +103,7 @@
     "name": "Chicken premier",
     "price": 899,
     "size": "Medium",
-    "image": "/images/pizza5.png",
+    "image": "/uploads/pizza5.png",
     "createdAt": {
       "$date": "2021-04-30T15:57:28.319Z"
     },
@@ -117,7 +117,7 @@
     "name": "Caramel pineapple",
     "price": 799,
     "size": "Small",
-    "image": "/images/pizza6.png",
+    "image": "/uploads/pizza6.png",
     "createdAt": {
       "$date": "2021-04-30T15:57:56.632Z"
     },
@@ -131,7 +131,7 @@
     "name": "Havana special",
     "price": 599,
     "size": "Small",
-    "image": "/images/peroni.png",
+    "image": "/uploads/peroni.png",
     "createdAt": {
       "$date": "2021-04-30T15:59:28.146Z"
     },

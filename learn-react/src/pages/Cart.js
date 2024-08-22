@@ -9,7 +9,7 @@ const Cart = () => {
     if (!cart.items) {
       return;
     }
-    fetch("api/products/cart-items", {
+    fetch("/api/products/cart-items", {
       method: "POST",
       headers: {
         "content-type": "application/json",

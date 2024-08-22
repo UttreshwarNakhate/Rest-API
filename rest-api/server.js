@@ -5,6 +5,7 @@ const app = express();
 import errorHandler from "./middlewares/errorHandler";
 import mongoose from "mongoose";
 import path from "path";
+import cors from "cors";
 
 // Database connection
 mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -13,6 +14,8 @@ db.on("error", console.error.bind(console, "connection error"));
 db.once("open", () => {
   console.log("Database connected...");
 });
+// Enable CORS for all routes
+app.use(cors());
 global.appRoot = path.resolve(__dirname);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
