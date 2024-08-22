@@ -38,7 +38,7 @@ function ProfileFill() {
 
     console.log("fORM DATA: ", formData);
 
-    fetch("rest-api-rose.vercel.app/api/single", {
+    fetch("https://rest-api-rose.vercel.app/api/single", {
       // Note the `/api` prefix
       method: "POST",
       body: formData,
