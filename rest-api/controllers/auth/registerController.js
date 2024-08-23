@@ -69,7 +69,7 @@ const registerController = {
       refresh_token = JwtService.sign(
         { _id: result._id, role: result.role },
         "1y",
-        REFRESH_SECRET
+        fdsfrfgfdfdg
       );
       // database whitelist
       await RefreshToken.create({ token: refresh_token });

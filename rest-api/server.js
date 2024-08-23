@@ -8,7 +8,10 @@ import path from "path";
 import cors from "cors";
 
 // Database connection
-mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(
+  "mongodb+srv://uttreshwarnakhate:answer123@answerapi.yeplyja.mongodb.net/rest-api",
+  { useNewUrlParser: true, useUnifiedTopology: true }
+);
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
 db.once("open", () => {
@@ -23,6 +26,6 @@ app.use("/api", routes);
 app.use("/uploads", express.static("uploads"));
 
 app.use(errorHandler);
-app.listen(APP_PORT, () => {
-  console.log(`Listening on port  ${APP_PORT}`);
+app.listen(5000, () => {
+  console.log(`Listening on port   5000`);
 });

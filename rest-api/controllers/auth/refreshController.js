@@ -35,7 +35,7 @@ const refreshController = {
       try {
         const { _id } = await JwtService.verify(
           refreshToken.token,
-          REFRESH_SECRET
+          fdsfrfgfdfdg
         );
         console.log("id", _id);
 
@@ -52,15 +52,19 @@ const refreshController = {
       }
 
       //   generate new tokens
-      const access_token = JwtService.sign({_id: user._id, role: user.role, });
-      const refresh_token = JwtService.sign({ _id: user._id, role: user.role }, "1y",   REFRESH_SECRET);
+      const access_token = JwtService.sign({ _id: user._id, role: user.role });
+      const refresh_token = JwtService.sign(
+        { _id: user._id, role: user.role },
+        "1y",
+        fdsfrfgfdfdg
+      );
 
       // Database whitelist
       const stored = await RefreshToken.create({ token: refresh_token });
       console.log("stored: ", stored);
       res.json({ access_token: access_token, refresh_token: refresh_token });
     } catch (error) {
-      console.log("Error: ", error)
+      console.log("Error: ", error);
       return next(new Error("Something went wrong!", error.message));
     }
   },
