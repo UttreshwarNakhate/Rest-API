@@ -7,6 +7,26 @@ import mongoose from "mongoose";
 import path from "path";
 import cors from "cors";
 
+app.use(
+  cors({
+    origin: ["https://restapi-pizzabackend.vercel.app"],
+    methods: ["POST", "GET"],
+    credentials: true,
+  })
+);
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (allowedOrigins.includes(origin) || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
+
 // Database connection
 mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
@@ -15,7 +35,6 @@ db.once("open", () => {
   console.log("Database connected...");
 });
 // Enable CORS for all routes
-app.use(cors());
 global.appRoot = path.resolve(__dirname);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

@@ -12,7 +12,7 @@ const productSchema = new schema(
       type: String,
       required: true,
       get: (image) => {
-        return `https://rest-api-backend-teal.vercel.app/${image}`;
+        return `https://restapi-pizzabackend.vercel.app/${image}`;
       },
     },
   },
