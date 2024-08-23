@@ -37,14 +37,17 @@ const Product = (props) => {
     setTimeout(() => {
       setIsAdding(false);
     }, 1000);
-
   };
 
   return (
     <Link to={`/products/${product._id}`}>
       <div>
         <div>
-          <img src={product.image} alt="peproni" />
+          <img
+            src={product.image}
+            alt="pizzaImage"
+            className="w-80 h-75 object-cover"
+          />
           <div className="text-center">
             <h2 className="text-lg font-bold py-2">{product.name}</h2>
             <span className="bg-gray-200 py-1 rounded-full text-sm px-4">

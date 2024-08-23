@@ -27,11 +27,18 @@ const SingleProduct = () => {
 
   return (
     <div className="container mx-auto mt-12">
-      <button className="mb-12 font-bold" onClick={() => navigate(-1)}>
+      <button
+        className="mb-12 font-bold rounded-md text-white bg-gray-400 px-4 py-2"
+        onClick={() => navigate(-1)}
+      >
         Back
       </button>
       <div className="flex">
-        <img src={product.image} alt="pizza" />
+        <img
+          src={product.image}
+          alt="pizza"
+          className="w-70 h-64 object-cover"
+        />
         <div className="ml-16">
           <h1 className="text-xl font-bold">{product.name}</h1>
           <div className="text-md">{product.size}</div>

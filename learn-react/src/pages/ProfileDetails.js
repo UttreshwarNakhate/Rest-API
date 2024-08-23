@@ -19,12 +19,14 @@ function ProfileDetails() {
   console.log("users Data: ", users);
 
   if (users.length === 0) {
-    return <div className="text-lg my-4">No users available</div>;
+    return <div className="text-lg my-4 mx-auto">No users available</div>;
   }
 
   return (
     <>
-      <h2 className="text-center text-cyan-300 my-4">User Details</h2>
+      <h2 className="text-center text-2xl font-serif text-gray-700 my-4">
+        User Profiles
+      </h2>
       <div className="w-full grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mx-auto m-4 p-2">
         {users.map((user) => (
           <div
