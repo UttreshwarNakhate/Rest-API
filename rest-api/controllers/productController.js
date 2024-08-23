@@ -164,6 +164,19 @@ const productController = {
     }
     return res.json(document);
   },
+
+  // Get products for cart
+  async getProducts(req, res, next) {
+    let documents;
+    try {
+      documents = await Product.find({
+        _id: { $in: req.body.ids },
+      }).select("-updatedAt -__v");
+    } catch (err) {
+      return next(CustomErrorHandler.serverError());
+    }
+    return res.json(documents);
+  },
 };
 
 export default productController;

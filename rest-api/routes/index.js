@@ -54,6 +54,8 @@ router.delete("/products/:id", [auth, admin], productController.destroy);
 router.get("/products", productController.index);
 router.get("/products/:id", productController.show);
 
+router.post("/products/cart-items", productController.getProducts);
+
 // Route to inset data in database
 router.post("/single", upload.single("image"), async (req, res) => {
   console.log("File: ", req.file);

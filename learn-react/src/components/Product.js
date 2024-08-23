@@ -11,7 +11,7 @@ const Product = (props) => {
 
   const addToCart = (event, product) => {
     event.preventDefault();
-    console.log("Event: ", event, product);
+    console.log("productId : ", product._id);
 
     // check if product available or not in the cart if not assign empty object to cart variable
     let _cart = { ...cart };
@@ -38,14 +38,6 @@ const Product = (props) => {
       setIsAdding(false);
     }, 1000);
 
-    //   const cart = {
-    //     items:{
-
-    //       //product Id and how many times it present in the cart
-
-    //     },
-    //     totalItems:5
-    //   }
   };
 
   return (

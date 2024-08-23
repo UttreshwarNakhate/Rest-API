@@ -1,8 +1,7 @@
 // Parent component
 
-import { CartContext } from "../CartContext";
 import Product from "./Product";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 
 const Products = () => {
   // useState hook used to store product state
@@ -34,9 +33,7 @@ const Products = () => {
 
         <div className="my-4">
           {mode === "offline" ? (
-            <div class="alert alert-warning" role="alert">
-              No internet connection
-            </div>
+            <div class="text-red-600">No internet connection</div>
           ) : null}
         </div>
 

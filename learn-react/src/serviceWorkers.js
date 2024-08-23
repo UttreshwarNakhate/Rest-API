@@ -20,6 +20,7 @@ export default function swDev() {
     return outputArray;
   }
 
+  // Service worker registry
   let swUrl = `${process.env.PUBLIC_URL}/sw.js`;
   navigator.serviceWorker
     .register(swUrl)
