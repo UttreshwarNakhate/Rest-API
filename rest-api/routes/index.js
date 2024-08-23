@@ -43,14 +43,14 @@ const upload = multer({ storage: storage });
 
 router.post("/register", registerController.register);
 router.post("/login", loginController.login);
-router.get("/me", auth, userController.me);
+router.get("/me", userController.me);
 router.post("/refresh", refreshController.refresh);
-router.post("/logout", auth, loginController.logout);
+router.post("/logout", loginController.logout);
 
 // products
 router.post("/products", productController.store);
-router.put("/products/:id", [auth, admin], productController.update);
-router.delete("/products/:id", [auth, admin], productController.destroy);
+router.put("/products/:id", productController.update);
+router.delete("/products/:id", productController.destroy);
 router.get("/products", productController.index);
 router.get("/products/:id", productController.show);
 

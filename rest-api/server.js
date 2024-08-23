@@ -7,25 +7,25 @@ import mongoose from "mongoose";
 import path from "path";
 import cors from "cors";
 
-app.use(
-  cors({
-    origin: ["https://restapi-pizzabackend.vercel.app"],
-    methods: ["POST", "GET"],
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: ["https://pizza-backend-chi.vercel.app/"],
+//     methods: ["POST", "GET"],
+//     credentials: true,
+//   })
+// );
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (allowedOrigins.includes(origin) || !origin) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-  })
-);
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       if (allowedOrigins.includes(origin) || !origin) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//   })
+// );
 
 // Database connection
 mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -40,12 +40,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use("/api", routes);
 app.use("/uploads", express.static("uploads"));
+app.use(cors())
 
 app.use(errorHandler);
-
-app.get("/", (req, res) => {
-  res.json("Hello from pizza backend!");
-});
 
 app.listen(APP_PORT, () => {
   console.log(`Listening on port  ${APP_PORT}`);
