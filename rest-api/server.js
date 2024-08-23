@@ -42,6 +42,11 @@ app.use("/api", routes);
 app.use("/uploads", express.static("uploads"));
 
 app.use(errorHandler);
+
+app.get("/", (req, res) => {
+  res.json("Hello from pizza backend!");
+});
+
 app.listen(APP_PORT, () => {
   console.log(`Listening on port  ${APP_PORT}`);
 });
