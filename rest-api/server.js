@@ -9,7 +9,7 @@ import cors from "cors";
 
 app.use(
   cors({
-    origin: ["https://restapi-pizzabackend.vercel.app"],
+    origin: ["https://rest-api-git-dev-uttreshwar-nakhates-projects.vercel.app/"],
     methods: ["POST", "GET"],
     credentials: true,
   })
