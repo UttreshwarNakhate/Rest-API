@@ -38,7 +38,7 @@ function ProfileFill() {
 
     console.log("fORM DATA: ", formData);
 
-    fetch("http://localhost:5000/api/single", {
+    fetch("https://pizza-backend-cwalcwdfs-uttreshwar-nakhates-projects.vercel.app/api/single", {
       // Note the `/api` prefix
       method: "POST",
       body: formData,
