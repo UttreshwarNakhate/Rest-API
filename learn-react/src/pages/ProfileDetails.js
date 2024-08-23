@@ -6,7 +6,7 @@ function ProfileDetails() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/images")
+    fetch("https://pizza-backend-cwalcwdfs-uttreshwar-nakhates-projects.vercel.app/api/images")
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);
