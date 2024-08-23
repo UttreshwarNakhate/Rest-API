@@ -35,7 +35,7 @@ const refreshController = {
       try {
         const { _id } = await JwtService.verify(
           refreshToken.token,
-          fdsfrfgfdfdg
+          REFRESH_SECRET
         );
         console.log("id", _id);
 
@@ -56,7 +56,7 @@ const refreshController = {
       const refresh_token = JwtService.sign(
         { _id: user._id, role: user.role },
         "1y",
-        fdsfrfgfdfdg
+        REFRESH_SECRET
       );
 
       // Database whitelist
