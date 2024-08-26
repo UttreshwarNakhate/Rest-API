@@ -1,4 +1,4 @@
-import { useState, useEffect, useHistory } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 const SingleProduct = () => {

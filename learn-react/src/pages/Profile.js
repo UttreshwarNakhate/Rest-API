@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Camera from "../components/Webcam";
+import { toast } from "react-toastify";
 
 function ProfileFill() {
-  const [showPopup, setShowPopup] = useState(false);
   const [showOptions, setShowOptions] = useState(false); // To toggle options
   const [showCamera, setShowCamera] = useState(false); // To toggle camera component
   const [img, setImg] = useState(null); // Store captured or uploaded image
@@ -50,7 +50,6 @@ function ProfileFill() {
         console.log(error);
       });
 
-    setShowPopup(true);
     setForm({
       name: "",
       mobile: "",
@@ -61,10 +60,7 @@ function ProfileFill() {
       image: "",
     });
     setImg(null); // Reset the image state as well
-  };
-
-  const handleClosePopup = () => {
-    setShowPopup(false);
+    toast.success("Data saved successfully!");
   };
 
   const handleOptionSelect = (option) => {
@@ -294,27 +290,6 @@ function ProfileFill() {
           </div>
         </form>
       </div>
-
-      {/* Popup code */}
-      {showPopup && (
-        <div
-          className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center z-50"
-          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-        >
-          <div className="bg-white p-8 rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">
-              Form Submitted Successfully
-            </h2>
-            <p>Your details have been saved.</p>
-            <button
-              className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded"
-              onClick={handleClosePopup}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
     </>
   );
 }
