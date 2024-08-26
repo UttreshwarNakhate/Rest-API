@@ -11,18 +11,20 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { messaging, getToken } from "./firebase";
 import ProfileDetails from "./pages/ProfileDetails";
+import { getCart, storeCart } from "./Helpers";
 
 const App = () => {
   const [cart, setCart] = useState({});
 
   // fetch from localstorage
   useEffect(() => {
-    const cart = window.localStorage.getItem("cart");
-    setCart(JSON.parse(cart));
+    getCart().then((cart) => {
+      setCart(JSON.parse(cart));
+    });
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("cart", JSON.stringify(cart));
+    storeCart(JSON.stringify(cart));
   }, [cart]);
 
   useEffect(() => {

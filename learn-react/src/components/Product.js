@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { CartContext } from "../CartContext";
 import { useContext } from "react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const Product = (props) => {
   const [isAdding, setIsAdding] = useState(false);
@@ -37,6 +38,7 @@ const Product = (props) => {
     setTimeout(() => {
       setIsAdding(false);
     }, 1000);
+    toast.success("Item added in the cart!");
   };
 
   return (

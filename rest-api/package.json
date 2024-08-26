@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -r esm server.js",
-    "start": "node -r esm server.js"
+    "dev": "nodemon -r esm server.j",
+    "start": "node -r esm server.js",
+    "build": "npm run build"
   },
   "keywords": [],
   "author": "",

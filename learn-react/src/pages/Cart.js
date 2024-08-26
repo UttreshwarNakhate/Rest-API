@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { CartContext } from "../CartContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Cart = () => {
   let total = 0;
@@ -36,7 +37,7 @@ const Cart = () => {
         setProducts(products);
         togglePriceFetched(true);
       });
-  }, [cart]);
+  }, [cart, priceFetched]);
 
   const getQty = (getProductId) => {
     return cart.items[getProductId];
@@ -87,7 +88,15 @@ const Cart = () => {
     const updatedProductList = products.filter(
       (product) => product._id !== productId
     );
+    toast.error("Item deleted!");
     setProducts(updatedProductList);
+  };
+
+  // Following function is used to handle order
+  const handleOrderNow = () => {
+    toast.success("Order placed successfully!");
+    setProducts([]);
+    setCart({});
   };
 
   return products.length ? (
@@ -141,7 +150,10 @@ const Cart = () => {
         <b>Grand Total:</b> ₹. {total}
       </div>
       <div className="text-right mt-6">
-        <button className="bg-yellow-500 px-4 py-2 rounded-full leading-none">
+        <button
+          onClick={handleOrderNow}
+          className="bg-yellow-500 px-4 py-2 rounded-full leading-none"
+        >
           Order Now
         </button>
       </div>
