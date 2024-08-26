@@ -38,7 +38,7 @@ function ProfileFill() {
 
     console.log("fORM DATA: ", formData);
 
-    fetch("http://pizza-backend.techorizon.in/api/single", {
+    fetch("/api/single", {
       // Note the `/api` prefix
       method: "POST",
       body: formData,
