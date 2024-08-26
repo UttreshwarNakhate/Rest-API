@@ -20,7 +20,7 @@ const Cart = () => {
       return;
     }
 
-    console.log("@cart items:, ", cart.items);
+    // console.log("@cart items:, ", cart.items);
 
     fetch("/api/products/cart-items", {
       method: "POST",
@@ -33,7 +33,7 @@ const Cart = () => {
     })
       .then((res) => res.json())
       .then((products) => {
-        console.log("products from cart item: ", products);
+        // console.log("products from cart item: ", products);
         setProducts(products);
         togglePriceFetched(true);
       });
@@ -78,9 +78,9 @@ const Cart = () => {
   // following function is uses to delete the product from cart
   const handleDelete = (productId) => {
     const _cart = { ...cart };
-    console.log("cart: ", _cart);
+    // console.log("cart: ", _cart);
     const qty = _cart.items[productId];
-    console.log("qty: ", qty);
+    // console.log("qty: ", qty);
 
     delete _cart.items[productId];
     _cart.totalItem -= qty;

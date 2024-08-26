@@ -9,17 +9,17 @@ import ProductsPage from "./pages/ProductsPage";
 import { CartContext } from "./CartContext";
 import { useEffect, useState } from "react";
 import "./App.css";
-import { messaging, getToken } from "./firebase";
+// import { messaging, getToken } from "./firebase";
 import ProfileDetails from "./pages/ProfileDetails";
 import { getCart, storeCart } from "./Helpers";
 
 const App = () => {
   const [cart, setCart] = useState({});
 
-  // fetch from localstorage
+  // Fetch from localstorage
   useEffect(() => {
     getCart().then((cart) => {
-      setCart(JSON.parse(cart));
+      setCart(JSON.parse(cart) || {});
     });
   }, []);
 
@@ -27,44 +27,42 @@ const App = () => {
     storeCart(JSON.stringify(cart));
   }, [cart]);
 
-  useEffect(() => {
-    const requestPermission = async () => {
-      try {
-        const permission = await Notification.requestPermission();
-        if (permission === "granted") {
-          const token = await getToken(messaging, {
-            vapidKey:
-              "BB56iy2JjSGmRUAb3zNk84aJubxLCdM92NNz_GnwbzL6UuOYCJLGpt3DZsB-U5H2i6LICtNQENpKpxxKWQT7mLw",
-          });
-          console.log("FCM token:", token);
-        } else {
-          console.error("Permission not granted for Notification");
-        }
-      } catch (err) {
-        console.error("Error getting token", err);
-      }
-    };
+  // useEffect(() => {
+  //   const requestPermission = async () => {
+  //     try {
+  //       const permission = await Notification.requestPermission();
+  //       if (permission === "granted") {
+  //         const token = await getToken(messaging, {
+  //           vapidKey:
+  //             "BB56iy2JjSGmRUAb3zNk84aJubxLCdM92NNz_GnwbzL6UuOYCJLGpt3DZsB-U5H2i6LICtNQENpKpxxKWQT7mLw",
+  //         });
+  //         console.log("FCM token:", token);
+  //       } else {
+  //         console.error("Permission not granted for Notification");
+  //       }
+  //     } catch (err) {
+  //       console.error("Error getting token", err);
+  //     }
+  //   };
 
-    requestPermission();
-  }, []);
+  //   requestPermission();
+  // }, []);
 
   return (
-    <>
-      <Router>
-        <CartContext.Provider value={{ cart, setCart }}>
-          <Navigation />
-          <Routes>
-            <Route path="/" Component={Home} exact></Route>
-            <Route path="/about" Component={About}></Route>
-            <Route path="/profile" Component={Profile}></Route>
-            <Route path="/productsPage" exact Component={ProductsPage}></Route>
-            <Route path="/products/:_id" Component={SingleProduct}></Route>
-            <Route path="/cart" Component={Cart}></Route>
-            <Route path="/profileDetails" Component={ProfileDetails}></Route>
-          </Routes>
-        </CartContext.Provider>
-      </Router>
-    </>
+    <Router>
+      <CartContext.Provider value={{ cart, setCart }}>
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/productsPage" element={<ProductsPage />} />
+          <Route path="/products/:_id" element={<SingleProduct />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/profileDetails" element={<ProfileDetails />} />
+        </Routes>
+      </CartContext.Provider>
+    </Router>
   );
 };
 

@@ -6,17 +6,21 @@ function ProfileDetails() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/images")
+    fetch("/api/images", {
+      mode: 'no-cors',
+      credentials: 'include',
+    })
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);
+        console.log("USer: ", data)
       })
       .catch((error) => {
         console.log("Error fetching user data: ", error);
       });
   }, []);
 
-  console.log("users Data: ", users);
+  // console.log("users Data: ", users);
 
   if (users.length === 0) {
     return <div className="text-lg my-4 mx-auto">No users available</div>;
