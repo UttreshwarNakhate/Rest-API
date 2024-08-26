@@ -21,6 +21,7 @@ const Products = () => {
         });
     }, []);
   } catch (error) {
+    console.log("Error occured: ", error);
     let collection = localStorage.getItem("products");
     setProducts(JSON.parse(collection));
     setMode("offline");

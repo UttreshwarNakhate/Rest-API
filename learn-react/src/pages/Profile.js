@@ -38,7 +38,7 @@ function ProfileFill() {
 
     console.log("fORM DATA: ", formData);
 
-    fetch("http://localhost:5000/api/single", {
+    fetch("/api/single", {
       // Note the `/api` prefix
       method: "POST",
       body: formData,
@@ -47,7 +47,7 @@ function ProfileFill() {
         console.log(res.msg);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("error in single endpoint: ", error);
       });
 
     setForm({

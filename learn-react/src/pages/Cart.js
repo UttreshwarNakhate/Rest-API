@@ -36,6 +36,9 @@ const Cart = () => {
         // console.log("products from cart item: ", products);
         setProducts(products);
         togglePriceFetched(true);
+      })
+      .catch((error) => {
+        console.log("Error occured in cart.js: ", error);
       });
   }, [cart, priceFetched]);
 

@@ -21,7 +21,25 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use("/api", routes);
 app.use("/uploads", express.static("uploads"));
-app.use(cors())
+app.use(cors("no-cors"));
+
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000",
+//     methods: "GET,POST,PUT,DELETE",
+//     credentials: true,
+//   })
+// );
+
+// CORS configuration
+const corsOptions = {
+  origin: "http://localhost:3000", // Allow only this origin
+  methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+  allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+  credentials: true, // Allow cookies if needed
+};
+
+app.use(cors(corsOptions));
 
 app.use(errorHandler);
 
