@@ -7,25 +7,6 @@ import mongoose from "mongoose";
 import path from "path";
 import cors from "cors";
 
-// app.use(
-//   cors({
-//     origin: ["https://pizza-backend-chi.vercel.app/"],
-//     methods: ["POST", "GET"],
-//     credentials: true,
-//   })
-// );
-
-// app.use(
-//   cors({
-//     origin: function (origin, callback) {
-//       if (allowedOrigins.includes(origin) || !origin) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error("Not allowed by CORS"));
-//       }
-//     },
-//   })
-// );
 
 // Database connection
 mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
