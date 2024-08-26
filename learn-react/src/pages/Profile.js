@@ -47,7 +47,7 @@ function ProfileFill() {
         console.log(res.msg);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("error in single endpoint: ", error);
       });
 
     setForm({

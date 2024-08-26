@@ -12,7 +12,7 @@ const Product = (props) => {
 
   const addToCart = (event, product) => {
     event.preventDefault();
-    console.log("productId : ", product._id);
+    
 
     // check if product available or not in the cart if not assign empty object to cart variable
     let _cart = { ...cart };
