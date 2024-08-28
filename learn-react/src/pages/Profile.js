@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import Camera from "../components/Webcam";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function ProfileFill() {
   const [showOptions, setShowOptions] = useState(false); // To toggle options
   const [showCamera, setShowCamera] = useState(false); // To toggle camera component
   const [img, setImg] = useState(null); // Store captured or uploaded image
-
+  const navigate = useNavigate();
+  
   const [form, setForm] = useState({
     name: "",
     mobile: "",
@@ -25,6 +27,7 @@ function ProfileFill() {
     e.preventDefault();
 
     const formData = new FormData();
+    
 
     for (const key in form) {
       formData.append(key, form[key]);
@@ -60,8 +63,15 @@ function ProfileFill() {
       image: "",
     });
     setImg(null); // Reset the image state as well
+    handleReturnToShop()
     toast.success("Data saved successfully!");
   };
+
+  // Nevigate to next page
+  const handleReturnToShop = () => {
+    navigate("/profileDetails"); // Redirect to the home page
+  };
+
 
   const handleOptionSelect = (option) => {
     if (option === "take-photo") {
