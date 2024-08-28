@@ -36,7 +36,7 @@ function ProfileDetails() {
           >
             <div className="flex-none w-full relative h-48">
               <img
-                src={`http://192.168.5.20:5000/${user.image?.path}`}
+                src={`https://rest-backend-nu.vercel.app/${user.image?.path}`}
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover"
                 loading="lazy"
