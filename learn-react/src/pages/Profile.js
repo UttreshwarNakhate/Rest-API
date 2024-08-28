@@ -8,7 +8,7 @@ function ProfileFill() {
   const [showCamera, setShowCamera] = useState(false); // To toggle camera component
   const [img, setImg] = useState(null); // Store captured or uploaded image
   const navigate = useNavigate();
-  
+
   const [form, setForm] = useState({
     name: "",
     mobile: "",
@@ -27,6 +27,15 @@ function ProfileFill() {
     e.preventDefault();
 
     const formData = new FormData();
+
+     // Check if all required fields are filled
+  const isFormValid = Object.values(form).every((value) => value.trim() !== "");
+
+  if (!isFormValid) {
+    toast.error("Please fill out all fields before submitting.");
+    return;
+  }
+    
     
 
     for (const key in form) {
@@ -40,6 +49,7 @@ function ProfileFill() {
     }
 
     console.log("fORM DATA: ", formData);
+   
 
     fetch("/api/single", {
       // Note the `/api` prefix
