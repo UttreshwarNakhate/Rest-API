@@ -33,7 +33,7 @@ app.use(cors("no-cors"));
 
 // CORS configuration
 const corsOptions = {
-  origin: "http://localhost:3000", // Allow only this origin
+  origin: "https://rest-frontend-git-dev-uttreshwar-nakhates-projects.vercel.app", // Allow only this origin
   methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
   allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
   credentials: true, // Allow cookies if needed
