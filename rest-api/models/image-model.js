@@ -7,6 +7,10 @@ const imageSchema = new mongoose.Schema({
   age: { type: String },
   qualification: { type: String },
   address: { type: String },
+  state: { type: String },
+  district: { type: String },
+  city: { type: String },
+  pinCode: { type: String },
   image: {
     path: { type: String },
     filename: { type: String },

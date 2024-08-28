@@ -10,7 +10,7 @@ function ProfileDetails() {
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);
-        console.log("USer: ", data)
+        console.log("USer: ", data);
       })
       .catch((error) => {
         console.log("Error fetching user data: ", error);
@@ -36,7 +36,7 @@ function ProfileDetails() {
           >
             <div className="flex-none w-full relative h-48">
               <img
-                src={`https://rest-backend-nu.vercel.app/${user.image?.path}`}
+                src={`http://localhost:5000/${user.image?.path}`}
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover"
                 loading="lazy"
@@ -56,18 +56,8 @@ function ProfileDetails() {
               </div>
               <div className="flex space-x-4 mb-6 text-sm font-medium">
                 <div className="flex-auto flex space-x-4">
-                  <button
-                    className="h-10 px-6 font-semibold rounded-md bg-black text-white"
-                    type="button"
-                  >
-                    Age: {user.age}
-                  </button>
-                  <button
-                    className="h-10 px-6 font-semibold rounded-md bg-black text-white"
-                    type="button"
-                  >
-                    Qualification: {user.qualification}
-                  </button>
+                  <span>Age: <strong>{user.age}</strong></span>
+                  <span>Qualification: <strong>{user.qualification}</strong></span>
                 </div>
               </div>
               <p className="text-sm text-slate-700">Address: {user.address}</p>

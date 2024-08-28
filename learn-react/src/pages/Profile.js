@@ -16,6 +16,10 @@ function ProfileFill() {
     age: "",
     qualification: "",
     address: "",
+    state: "",
+    district: "",
+    city: "",
+    pinCode: "",
   });
 
   const handleChange = (e) => {
@@ -28,15 +32,15 @@ function ProfileFill() {
 
     const formData = new FormData();
 
-     // Check if all required fields are filled
-  const isFormValid = Object.values(form).every((value) => value.trim() !== "");
+    // Check if all required fields are filled
+    const isFormValid = Object.values(form).every(
+      (value) => value.trim() !== ""
+    );
 
-  if (!isFormValid) {
-    toast.error("Please fill out all fields before submitting.");
-    return;
-  }
-    
-    
+    if (!isFormValid) {
+      toast.error("Please fill out all fields before submitting.");
+      return;
+    }
 
     for (const key in form) {
       formData.append(key, form[key]);
@@ -48,21 +52,25 @@ function ProfileFill() {
       formData.append("image", img, uniqueFilename);
     }
 
-    console.log("fORM DATA: ", formData);
-   
+    console.log("FORM DATA: ", formData);
 
     fetch("/api/single", {
       // Note the `/api` prefix
       method: "POST",
       body: formData,
     })
-      .then((res) => {
-        console.log(res.msg);
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Response: ", data);
+        toast.success("Data saved successfully!");
+        handleReturnToShop();
       })
       .catch((error) => {
-        console.log("error in single endpoint: ", error);
+        console.log("Error in single endpoint: ", error);
+        toast.error("Error saving data.");
       });
 
+    // Reset the form and image
     setForm({
       name: "",
       mobile: "",
@@ -70,18 +78,18 @@ function ProfileFill() {
       age: "",
       qualification: "",
       address: "",
-      image: "",
+      state: "",
+      district: "",
+      city: "",
+      pinCode: "",
     });
     setImg(null); // Reset the image state as well
-    handleReturnToShop()
-    toast.success("Data saved successfully!");
   };
 
-  // Nevigate to next page
+  // Navigate to the next page
   const handleReturnToShop = () => {
-    navigate("/profileDetails"); // Redirect to the home page
+    navigate("/profileDetails"); // Redirect to the profile details page
   };
-
 
   const handleOptionSelect = (option) => {
     if (option === "take-photo") {
@@ -98,6 +106,36 @@ function ProfileFill() {
       setShowOptions(false);
     }
   };
+
+  // Get current location
+  const getCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const { latitude, longitude } = pos.coords;
+      console.log(latitude, longitude);
+      const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+      fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("Address Data: ", data);
+          const address = data.address;
+
+          setForm((prevForm) => ({
+            ...prevForm,
+            address:
+              address.suburb ||
+              address.city ||
+              address.town ||
+              address.road ||
+              "",
+            state: address.state || "",
+            district: address.state_district || "",
+            city: address.city || "",
+            pinCode: address.postcode || "",
+          }));
+        });
+    });
+  };
+
   return (
     <>
       <div className="flex justify-center mx-auto items-center min-h-screen">
@@ -186,7 +224,7 @@ function ProfileFill() {
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-3">
                   <label
-                    htmlFor="first-name"
+                    htmlFor="name"
                     className="block text-sm font-medium leading-6 text-gray-900 text-left"
                   >
                     Name
@@ -197,7 +235,7 @@ function ProfileFill() {
                       name="name"
                       value={form.name}
                       onChange={handleChange}
-                      placeholder="john doe"
+                      placeholder="John Doe"
                       className="w-80 py-1 px-3 border rounded-md outline-none"
                     />
                   </div>
@@ -205,7 +243,7 @@ function ProfileFill() {
 
                 <div className="sm:col-span-3">
                   <label
-                    htmlFor="last-name"
+                    htmlFor="mobile"
                     className="block text-sm font-medium leading-6 text-gray-900 text-left"
                   >
                     Mobile No.
@@ -216,7 +254,7 @@ function ProfileFill() {
                       name="mobile"
                       value={form.mobile}
                       onChange={handleChange}
-                      placeholder="ex:9130072238"
+                      placeholder="9130072238"
                       className="w-80 py-1 px-3 border rounded-md outline-none"
                     />
                   </div>
@@ -224,7 +262,7 @@ function ProfileFill() {
 
                 <div className="sm:col-span-3">
                   <label
-                    htmlFor="last-name"
+                    htmlFor="age"
                     className="block text-sm font-medium leading-6 text-gray-900 text-left"
                   >
                     Age
@@ -235,7 +273,7 @@ function ProfileFill() {
                       name="age"
                       value={form.age}
                       onChange={handleChange}
-                      placeholder="ex: 22"
+                      placeholder="22"
                       className="w-80 py-1 px-3 border rounded-md outline-none"
                     />
                   </div>
@@ -243,7 +281,7 @@ function ProfileFill() {
 
                 <div className="sm:col-span-3">
                   <label
-                    htmlFor="last-name"
+                    htmlFor="qualification"
                     className="block text-sm font-medium leading-6 text-gray-900 text-left"
                   >
                     Qualification
@@ -260,39 +298,124 @@ function ProfileFill() {
                   </div>
                 </div>
 
-                <div className="sm:col-span-4">
+                <div className="sm:col-span-3">
                   <label
                     htmlFor="email"
                     className="block text-sm font-medium leading-6 text-gray-900 text-left"
                   >
-                    Email address
+                    Email Address
                   </label>
                   <div>
                     <input
                       id="email"
                       name="email"
                       type="email"
-                      placeholder="anc12@gmail.com"
+                      placeholder="example@gmail.com"
                       value={form.email}
                       onChange={handleChange}
                       className="w-80 py-1 px-3 border rounded-md outline-none"
                     />
                   </div>
                 </div>
+
+                {/* Address Details */}
                 <div className="sm:col-span-4">
+                  <button
+                    type="button"
+                    onClick={getCurrentLocation}
+                    className="mt-2 text-xs px-2 py-1 text-white rounded-md bg-blue-500"
+                  >
+                    Use my current location
+                  </button>
                   <label
-                    htmlFor="street-address"
+                    htmlFor="address"
                     className="block text-sm font-medium leading-6 text-gray-900 text-left"
                   >
-                    Street address
+                    Street Address
                   </label>
                   <div>
                     <input
-                      type="textarea"
+                      type="text"
                       name="address"
                       value={form.address}
                       onChange={handleChange}
-                      placeholder="P24, Raj Niwas, Anand nagar, Anandgaon"
+                      placeholder="Address (Area and Street)"
+                      className="w-80 py-1 px-3 border rounded-md outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="state"
+                    className="block text-sm font-medium leading-6 text-gray-900 text-left"
+                  >
+                    State
+                  </label>
+                  <div>
+                    <input
+                      type="text"
+                      name="state"
+                      value={form.state}
+                      onChange={handleChange}
+                      placeholder="Maharashtra"
+                      className="w-80 py-1 px-3 border rounded-md outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="district"
+                    className="block text-sm font-medium leading-6 text-gray-900 text-left"
+                  >
+                    District
+                  </label>
+                  <div>
+                    <input
+                      type="text"
+                      name="district"
+                      value={form.district}
+                      onChange={handleChange}
+                      placeholder="Beed"
+                      className="w-80 py-1 px-3 border rounded-md outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="city"
+                    className="block text-sm font-medium leading-6 text-gray-900 text-left"
+                  >
+                    City/Town
+                  </label>
+                  <div>
+                    <input
+                      type="text"
+                      name="city"
+                      value={form.city}
+                      onChange={handleChange}
+                      placeholder="Anandgaon"
+                      className="w-80 py-1 px-3 border rounded-md outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="pinCode"
+                    className="block text-sm font-medium leading-6 text-gray-900 text-left"
+                  >
+                    PIN Code
+                  </label>
+                  <div>
+                    <input
+                      type="text"
+                      name="pinCode"
+                      value={form.pinCode}
+                      onChange={handleChange}
+                      placeholder="431131"
                       className="w-80 py-1 px-3 border rounded-md outline-none"
                     />
                   </div>

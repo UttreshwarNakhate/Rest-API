@@ -25,6 +25,37 @@ const SingleProduct = () => {
     fetchProduct();
   }, [params._id]);
 
+  // Add to cart
+  const addToCart = (event, product) => {
+    event.preventDefault();
+
+    // check if product available or not in the cart if not assign empty object to cart variable
+    let _cart = { ...cart };
+    if (!_cart.items) {
+      _cart.items = {};
+    }
+
+    // Check if product is alreay available if yes then increase qunatity by 1
+    if (_cart.items[product._id]) {
+      _cart.items[product._id] += 1;
+    } else {
+      // product is not in the cart then add 1
+      _cart.items[product._id] = 1;
+    }
+    // Update totale items
+    if (!_cart.totalItems) {
+      _cart.totalItems = 0;
+    }
+    _cart.totalItems += 1;
+    // set in the state
+    setCart(_cart);
+    setIsAdding(true);
+    setTimeout(() => {
+      setIsAdding(false);
+    }, 1000);
+    toast.success("Item added in the cart!");
+  };
+
   return (
     <div className="container mx-auto mt-12">
       <button

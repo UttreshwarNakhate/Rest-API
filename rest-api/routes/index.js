@@ -62,7 +62,18 @@ router.post("/single", upload.single("image"), async (req, res) => {
 
   try {
     const { path, filename } = req.file;
-    const { name, mobile, email, age, qualification, address } = req.body;
+    const {
+      name,
+      mobile,
+      email,
+      age,
+      qualification,
+      address,
+      state,
+      district,
+      city,
+      pinCode,
+    } = req.body;
 
     const image = new imageModel({
       name,
@@ -71,6 +82,10 @@ router.post("/single", upload.single("image"), async (req, res) => {
       age,
       qualification,
       address,
+      state,
+      district,
+      city,
+      pinCode,
       image: {
         path,
         filename,
