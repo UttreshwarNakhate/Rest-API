@@ -2,9 +2,11 @@
   "name": "rest-api",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "nodemon -r esm server.js",
-    "start": "node -r esm server.js"
+    "start": "node -r esm server.js",
+    "clean:all": "npm run clean && rimraf node_modules"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +17,7 @@
     "esm": "^3.2.25",
     "express": "^4.19.2",
     "joi": "^17.13.3",
+    "mongoose": "^8.5.2",
     "nodemon": "^3.1.4"
   }
 }
